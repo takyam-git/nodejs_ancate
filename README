@@ -13,3 +13,8 @@ Schema.pre('save', function(next){
 で、保存時の処理ができる。
 save以外にはinitialとremoveがある
 
+Mongodbは入れ子でモデリングできる？
+あんまり試してないけど。
+
+new Schema({ hoge : [ new Schema({ hoge : { type: 'String' }] ]);
+的な。
