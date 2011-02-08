@@ -1,0 +1,15 @@
+socket.io使ってアンケート作りたい
+リアルタイムで反映されてグラフがぐいんぐいん変化する感じ。
+とりあえずmongodb初挑戦
+
+modelsの下にmodelを作っていこうかと
+
+メモ：
+Schema.pre('save', function(next){
+	//...
+	next();
+});
+
+で、保存時の処理ができる。
+save以外にはinitialとremoveがある
+
