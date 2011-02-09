@@ -22,7 +22,8 @@ Renderer.prototype.renderPage = function(body){
 
 Renderer.prototype.getHtmlAllList = function(){
 	var self = this;
-	Forms.find({}, function(err, docs){
+	Forms.find({}, {}, { sort: [['created_on', -1]], limit: 5 }, function(err, docs){
+		//docs.sort('name', -1);
 		var list = self.res.partial('ancates', {
 			locals: {
 				docs  : docs

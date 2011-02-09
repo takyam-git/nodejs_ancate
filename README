@@ -1,6 +1,7 @@
 socket.io使ってアンケート作りたい
 リアルタイムで反映されてグラフがぐいんぐいん変化する感じ。
 とりあえずmongodb初挑戦
+mongooseドキュメントなさすぎわろえない
 
 modelsの下にmodelを作っていこうかと
 
@@ -18,3 +19,64 @@ Mongodbは入れ子でモデリングできる？
 
 new Schema({ hoge : [ new Schema({ hoge : { type: 'String' }] ]);
 的な。
+
+
+：mongooseメモ
+■getterまわりのもろもろ
+Model.find(query, fields, options, callback);
+↑これでfindしてcallbackにerrとdocsを返す。
+
+Forms.find({}, function(err, docs){ /* ... */ });
+こんな感じ。
+
+fields と options は省略できる。
+
+fields は表示させたいフィールドを限定する場合に使う
+
+Forms.find({}, ['name'], function(err, docs){ /* ... */ });
+
+こんな感じ。
+
+
+options を使うときは、 fieldsは省略できないぽい（めんどくせ）
+でもってfieldsを[]（Array）にしちゃうと、
+fieldの指定がない＝どのfieldも取得したくないと解釈するぽい
+
+Forms.find({}, [], {}, function(err, docs){ /* ... */ });
+// docs.name = null
+
+なので、fieldsを特に指定しない場合は{}(Object)にしてあげる。
+
+Forms.find({}, {}, {}, function(err, docs){ /* ... */ });
+// docs.name = hogehoge
+
+
+でもってソートとかやりたい場合は、オプションのとこにかいてあげる
+
+Forms.find({}, {}, {
+	sort  : [['name', -1]],
+	limit : 5
+}, function(err, docs){ /* ... */ });
+
+こんな感じ。
+
+ソートのところは、
+sort : [['foo', 1], ['bar', -1]],
+みたいな感じにすると第2キーを設定できるぽい
+
+-1 = desc, 1 = asc な感じ。たぶん。
+
+sortとlimit以外になにがあるかはしらね。
+
+とりあえずドキュメントなさ過ぎてわけわかんなかった。
+
+ググったら
+
+Model.find().sort([['hoge', -1]]).all(function(){ /* ... */ });
+
+とか出てくるけどこんなのは使えない。
+バージョンの違いなのかそもそも別のやつなのかわからんけど、
+とりあえず .all() メソッドがない。
+というかこんなんじゃasyncじゃないしね。。。
+
+以上ただのfindに苦労しまくりました。
