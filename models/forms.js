@@ -4,8 +4,9 @@ var db       = mongoose.connect('mongodb://localhost:27017/nodejs_ancate'),
 	objectId = Schema.objectId;
 
 var Values = new Schema({
-	value     : { type: String, required: true },
-	posted_on : { type: Date,   required: true }
+	value     : { type: String,  required: true },
+	posted_on : { type: Date,    required: true },
+	valid     : { type: Boolean, required: true , default: true },
 });
 Values.pre('save', function(next){
 	this.posted_on = new Date();
@@ -13,9 +14,11 @@ Values.pre('save', function(next){
 });
 
 var Fields = new Schema({
-	name     : { type: String, required: true },
-	type     : { type: Number, required: true },
-	added_on : { type: Date,   required: true },
+	name     : { type: String, required: true  },
+	type     : { type: Number, required: true  },
+	added_on : { type: Date,   required: true  },
+	options  : { type: String, required: false },
+	default  : { type: String, required: false },
 	values   : [ Values ],
 });
 Fields.pre('save', function(next){
@@ -29,7 +32,6 @@ var Forms = new Schema({
 	created_on : { type: Date,   required: true, default: Date.now },
 	fields     : [ Fields ]
 });
-
 Forms.pre('save', function(next){
 	this.created_on = new Date();
 	next();

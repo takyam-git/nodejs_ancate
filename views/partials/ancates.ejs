@@ -1,0 +1,21 @@
+<% if( docs ){ %>
+	<table>
+		<thead>
+			<tr>
+				<th>アンケート名</th>
+				<th>公開予定日</th>
+				<th>アンケート作成日</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for(var doc in docs){ %>
+				<tr>
+					<td><%= docs[doc].name %></td>
+					<td><%= docs[doc].unpublish %></td>
+					<td><%= docs[doc].created_on %></td>
+					<td><%= docs[doc].fields.length %></td>
+				</tr>
+			<% } %>
+		</tbody>
+	</table>
+<% } %>
